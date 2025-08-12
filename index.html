@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grid Mapper</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Grid Mapper</h1>
+
+    <!-- Add Point Manually -->
+    <div>
+        <input id="xCoord" type="number" placeholder="X Coordinate">
+        <input id="zCoord" type="number" placeholder="Z Coordinate">
+        <input id="note" type="text" placeholder="Note (optional)">
+        <button onclick="addPoint()">Add Point</button>
+    </div>
+
+    <!-- Current Position -->
+    <div>
+        <input id="currentX" type="number" placeholder="Your X">
+        <input id="currentZ" type="number" placeholder="Your Z">
+        <button onclick="findClosest()">Find Closest</button>
+    </div>
+
+    <!-- Clear Points -->
+    <div>
+        <button onclick="clearPoints()">Clear All Points</button>
+    </div>
+
+    <!-- Rectangle container -->
+    <div id="canvasContainer">
+        <canvas id="gridCanvas"></canvas>
+    </div>
+
+    <div id="bottomButtons">
+        <button id="undoBtn">Undo (crtl + z)</button>
+        <button id="redoBtn">Redo (crtl + y)</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
