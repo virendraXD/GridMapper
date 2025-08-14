@@ -32,6 +32,26 @@ if (saved) {
   try { points = JSON.parse(saved) || []; } catch(e) { points = []; }
 }
 
+function drawDirectionLabels() {
+    ctx.font = "18px Arial";
+    ctx.fillStyle = "#ffffff";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    // N (Z -) correct
+    ctx.fillText("S", canvas.width / 2, 20);
+
+    // S (Z +) correct
+    ctx.fillText("N", canvas.width / 2, canvas.height - 20);
+
+    // E (X +) correct
+    ctx.fillText("E", canvas.width - 20, canvas.height / 2);
+
+    // W (X -) correct
+    ctx.fillText("W", 20, canvas.height / 2);
+}
+
+
 function drawGrid() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -74,6 +94,9 @@ function drawGrid() {
   if (currentPos && closestPoint) {
       drawLineBetweenPoints(currentPos, closestPoint);
   }
+
+  // Direction labels
+  drawDirectionLabels();
 }
 
 function drawGridLayer(spacing, color, lineWidth) {
@@ -416,4 +439,4 @@ const coordB = { x: 50, y: 30 };
 
 // Call after grid is drawn so it appears on top
 drawLineBetweenPoints(ctx, coordA, coordB, blockSizeInPixels);
-//Closest
+// drawgrid
