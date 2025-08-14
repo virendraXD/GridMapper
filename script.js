@@ -1,4 +1,3 @@
-
 let points = [];
 let redoStack = [];
 let currentPos = null;
@@ -11,6 +10,7 @@ let dragStartMouseY = 0;
 let dragStartOffsetX = 0;
 let dragStartOffsetZ = 0;
 let movedDuringDrag = false;
+let blockSizeInPixels = 32; 
 
 const worldLimit = 50000; // Max ± blocks
 
