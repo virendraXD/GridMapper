@@ -239,24 +239,52 @@ function addPoint() {
   drawGrid();
 }
 
-// Find closest
+// Find closest with direction + degrees
 function findClosest() {
-  const x = parseFloat(document.getElementById("currentX").value);
-  const z = parseFloat(document.getElementById("currentZ").value);
-  if (isNaN(x) || isNaN(z)) return;
+    const x = parseFloat(document.getElementById("currentX").value);
+    const z = parseFloat(document.getElementById("currentZ").value);
+    if (isNaN(x) || isNaN(z)) return;
 
-  currentPos = { x, z };
-  let minDist = Infinity;
-  let closest = null;
-  points.forEach(p => {
-    const d = Math.hypot(p.x - x, p.z - z);
-    if (d < minDist) {
-      minDist = d; closest = p;
+    currentPos = { x, z };
+    let minDist = Infinity;
+    let closest = null;
+
+    points.forEach(p => {
+        const d = Math.hypot(p.x - x, p.z - z);
+        if (d < minDist) {
+            minDist = d;
+            closest = p;
+        }
+    });
+
+    closestPoint = closest;
+    drawGrid();
+
+    if (closest) {
+        const { direction, degrees } = getDirectionWithDegrees(x, z, closest.x, closest.z);
+        alert(`Closest Point: (${closest.x}, ${closest.z})\nDistance: ${minDist.toFixed(2)} blocks\nDirection: ${direction} (${degrees}°)`);
+        document.getElementById("directionDisplay").textContent = `Facing: ${direction} (${degrees}°)`;
     }
-  });
-  closestPoint = closest;
-  drawGrid();
-  if (closest) alert(`Closest Point: (${closest.x}, ${closest.z}) | Distance: ${minDist.toFixed(2)} blocks`);
+}
+
+// Helper function to get direction + degrees
+function getDirectionWithDegrees(fromX, fromZ, toX, toZ) {
+    const dx = toX - fromX;
+    const dz = toZ - fromZ;
+    let angle = Math.atan2(dz, dx) * (180 / Math.PI);
+    if (angle < 0) angle += 360; // Normalize to 0–360
+
+    let direction = "?";
+    if (angle >= 337.5 || angle < 22.5) direction = "East";
+    else if (angle >= 22.5 && angle < 67.5) direction = "North-East";
+    else if (angle >= 67.5 && angle < 112.5) direction = "North";
+    else if (angle >= 112.5 && angle < 157.5) direction = "North-West";
+    else if (angle >= 157.5 && angle < 202.5) direction = "West";
+    else if (angle >= 202.5 && angle < 247.5) direction = "South-West";
+    else if (angle >= 247.5 && angle < 292.5) direction = "South";
+    else if (angle >= 292.5 && angle < 337.5) direction = "South-East";
+
+    return { direction, degrees: Math.round(angle) };
 }
 
 // clear points
@@ -358,6 +386,27 @@ document.addEventListener("keydown", function (e) {
     }
 });
 
+function getDirection(fromX, fromZ, toX, toZ) {
+    const dx = toX - fromX;
+    const dz = toZ - fromZ;
+    const angle = Math.atan2(dz, dx) * (180 / Math.PI); // Convert to degrees
+
+    // Normalize to 0–360
+    const normalized = (angle + 360) % 360;
+
+    if (normalized >= 337.5 || normalized < 22.5) return "East";
+    if (normalized >= 22.5 && normalized < 67.5) return "North-East";
+    if (normalized >= 67.5 && normalized < 112.5) return "North";
+    if (normalized >= 112.5 && normalized < 157.5) return "North-West";
+    if (normalized >= 157.5 && normalized < 202.5) return "West";
+    if (normalized >= 202.5 && normalized < 247.5) return "South-West";
+    if (normalized >= 247.5 && normalized < 292.5) return "South";
+    if (normalized >= 292.5 && normalized < 337.5) return "South-East";
+
+    return "?";
+}
+
+
 // initial render
 drawGrid();
 
@@ -367,3 +416,4 @@ const coordB = { x: 50, y: 30 };
 
 // Call after grid is drawn so it appears on top
 drawLineBetweenPoints(ctx, coordA, coordB, blockSizeInPixels);
+//Closest
