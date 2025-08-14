@@ -16,7 +16,7 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url("./images/texture.png"); /* Your texture file */
+  background-image: url("images/texture.png"); /* Your texture file */
   background-size: cover; /* or contain, repeat depending on your texture */
   background-position: center;
   opacity: 0.25; /* Fade strength (0.05–0.2 is good) */
